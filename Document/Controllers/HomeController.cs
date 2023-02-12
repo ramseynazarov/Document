@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Documet.Models;
+using Document.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Document.Controllers;

@@ -1,4 +1,4 @@
-namespace Documet.Models;
+namespace Document.Models;
 
 public class ErrorViewModel
 {

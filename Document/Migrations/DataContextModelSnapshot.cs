@@ -15,9 +15,13 @@ namespace Document.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
-            modelBuilder.Entity("Document.Models.Departament", b =>
+            modelBuilder.Entity("Document.Models.Department", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,20 +31,68 @@ namespace Document.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departaments");
+                    b.ToTable("Departments");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
-                            CreatedAt = new DateTime(2023, 2, 12, 10, 45, 15, 729, DateTimeKind.Utc).AddTicks(7560),
+                            CreatedAt = new DateTime(2023, 2, 12, 15, 45, 22, 731, DateTimeKind.Utc).AddTicks(4730),
                             Name = "РТСУ"
                         });
+                });
+
+            modelBuilder.Entity("Document.Models.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Correspondent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CorrespondentNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAtCorrespondent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DocumentNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("Document.Models.Status", b =>
@@ -50,7 +102,6 @@ namespace Document.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -80,58 +131,7 @@ namespace Document.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Documet.Models.Document", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Correspondent")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CorrespondentNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAtCorrespondent")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("DepartamentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DocumentNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartamentId");
-
-                    b.HasIndex("StatusId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Documents");
-                });
-
-            modelBuilder.Entity("Documet.Models.User", b =>
+            modelBuilder.Entity("Document.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,40 +140,37 @@ namespace Document.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DepartamentId")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartamentId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("de2687ec-b4a3-4d9f-b569-8dbda2c427c8"),
-                            CreatedAt = new DateTime(2023, 2, 12, 10, 45, 15, 799, DateTimeKind.Utc).AddTicks(730),
-                            DepartamentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
+                            Id = new Guid("fee7067e-7785-491c-a5a1-539f67e4a9e9"),
+                            CreatedAt = new DateTime(2023, 2, 12, 15, 45, 22, 821, DateTimeKind.Utc).AddTicks(840),
+                            DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
                             Name = "Админ",
-                            Password = "$2b$10$97AAmK2gK5HaA3/QF1kg6.TUBKgLljUtBfg81cBkTKKXfc1S.eBwK",
+                            Password = "$2b$10$zeTgANiQRpurLll71lbPHebdveKDLAx1m30l7.k2U.eWbwRyZtzVm",
                             Phone = "+000000000000"
                         });
                 });
 
-            modelBuilder.Entity("Documet.Models.UserDocuments", b =>
+            modelBuilder.Entity("Document.Models.UserDocuments", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,11 +191,11 @@ namespace Document.Migrations
                     b.ToTable("UserDocuments");
                 });
 
-            modelBuilder.Entity("Documet.Models.Document", b =>
+            modelBuilder.Entity("Document.Models.Document", b =>
                 {
-                    b.HasOne("Document.Models.Departament", "Departament")
+                    b.HasOne("Document.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartamentId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -208,39 +205,39 @@ namespace Document.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Documet.Models.User", "User")
+                    b.HasOne("Document.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Departament");
+                    b.Navigation("Department");
 
                     b.Navigation("Status");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Documet.Models.User", b =>
+            modelBuilder.Entity("Document.Models.User", b =>
                 {
-                    b.HasOne("Document.Models.Departament", "Departament")
+                    b.HasOne("Document.Models.Department", "Department")
                         .WithMany("Users")
-                        .HasForeignKey("DepartamentId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Departament");
+                    b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("Documet.Models.UserDocuments", b =>
+            modelBuilder.Entity("Document.Models.UserDocuments", b =>
                 {
-                    b.HasOne("Documet.Models.Document", "Document")
+                    b.HasOne("Document.Models.Document", "Document")
                         .WithMany("UserDocuments")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Documet.Models.User", "User")
+                    b.HasOne("Document.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -251,12 +248,12 @@ namespace Document.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Document.Models.Departament", b =>
+            modelBuilder.Entity("Document.Models.Department", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Documet.Models.Document", b =>
+            modelBuilder.Entity("Document.Models.Document", b =>
                 {
                     b.Navigation("UserDocuments");
                 });

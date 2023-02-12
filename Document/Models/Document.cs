@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Documet.Models;
 
 namespace Document.Models;
 
@@ -15,7 +14,7 @@ public class Document
     public DateTime CreatedAtCorrespondent { get; set; }
     public DateTime CreatedAt { get; set; }
     public Guid UserId { get; set; }
-    public Guid DepartamentId { get; set; }
+    public Guid DepartmentId { get; set; }
    
     public int StatusId { get; set; }
 

@@ -3,23 +3,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Document.Migrations
 {
+    /// <inheritdoc />
     public partial class init : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Departaments",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departaments", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,7 +32,7 @@ namespace Document.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,19 +44,19 @@ namespace Document.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DepartamentId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
-                    Phone = table.Column<string>(type: "TEXT", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Password = table.Column<string>(type: "TEXT", nullable: true),
+                    Phone = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Departaments_DepartamentId",
-                        column: x => x.DepartamentId,
-                        principalTable: "Departaments",
+                        name: "FK_Users_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -63,23 +67,23 @@ namespace Document.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     DocumentNumber = table.Column<int>(type: "INTEGER", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Topic = table.Column<string>(type: "TEXT", nullable: false),
-                    Correspondent = table.Column<string>(type: "TEXT", nullable: false),
-                    CorrespondentNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    Type = table.Column<string>(type: "TEXT", nullable: true),
+                    Topic = table.Column<string>(type: "TEXT", nullable: true),
+                    Correspondent = table.Column<string>(type: "TEXT", nullable: true),
+                    CorrespondentNumber = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAtCorrespondent = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DepartamentId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StatusId = table.Column<int>(type: "INTEGER", nullable: false)
+                    DepartmentId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StatusId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Documents_Departaments_DepartamentId",
-                        column: x => x.DepartamentId,
-                        principalTable: "Departaments",
+                        name: "FK_Documents_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -122,39 +126,30 @@ namespace Document.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Departaments",
+                table: "Departments",
                 columns: new[] { "Id", "CreatedAt", "Name" },
-                values: new object[] { new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"), new DateTime(2023, 2, 12, 10, 45, 15, 729, DateTimeKind.Utc).AddTicks(7560), "РТСУ" });
+                values: new object[] { new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"), new DateTime(2023, 2, 12, 15, 45, 22, 731, DateTimeKind.Utc).AddTicks(4730), "РТСУ" });
 
             migrationBuilder.InsertData(
                 table: "Status",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Новый" });
-
-            migrationBuilder.InsertData(
-                table: "Status",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "В процессе" });
-
-            migrationBuilder.InsertData(
-                table: "Status",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "Отказано" });
-
-            migrationBuilder.InsertData(
-                table: "Status",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 4, "Одобрено" });
+                values: new object[,]
+                {
+                    { 1, "Новый" },
+                    { 2, "В процессе" },
+                    { 3, "Отказано" },
+                    { 4, "Одобрено" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "CreatedAt", "DepartamentId", "Name", "Password", "Phone" },
-                values: new object[] { new Guid("de2687ec-b4a3-4d9f-b569-8dbda2c427c8"), new DateTime(2023, 2, 12, 10, 45, 15, 799, DateTimeKind.Utc).AddTicks(730), new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"), "Админ", "$2b$10$97AAmK2gK5HaA3/QF1kg6.TUBKgLljUtBfg81cBkTKKXfc1S.eBwK", "+000000000000" });
+                columns: new[] { "Id", "CreatedAt", "DepartmentId", "Name", "Password", "Phone" },
+                values: new object[] { new Guid("fee7067e-7785-491c-a5a1-539f67e4a9e9"), new DateTime(2023, 2, 12, 15, 45, 22, 821, DateTimeKind.Utc).AddTicks(840), new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"), "Админ", "$2b$10$zeTgANiQRpurLll71lbPHebdveKDLAx1m30l7.k2U.eWbwRyZtzVm", "+000000000000" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Documents_DepartamentId",
+                name: "IX_Documents_DepartmentId",
                 table: "Documents",
-                column: "DepartamentId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_StatusId",
@@ -177,11 +172,12 @@ namespace Document.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_DepartamentId",
+                name: "IX_Users_DepartmentId",
                 table: "Users",
-                column: "DepartamentId");
+                column: "DepartmentId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -197,7 +193,7 @@ namespace Document.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Departaments");
+                name: "Departments");
         }
     }
 }

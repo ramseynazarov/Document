@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Document.Models;
 using Document.Models.ViewModels.User;
-using Documet.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

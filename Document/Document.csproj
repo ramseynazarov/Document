@@ -33,4 +33,8 @@
       <TypeScriptCompile Include="wwwroot\assets\vendor\tinymce\tinymce.d.ts" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations" />
+    </ItemGroup>
+
 </Project>

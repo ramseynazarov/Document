@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Document.Models;
 using Document.Models.ViewModels.Document;
-using Documet.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +38,7 @@ public class DocumentController : BaseController
     {
         var userId = GetCurrentUserId();
         
-        var document = new Models.Document()
+        var document = new Models.Document
         {
             Id = Guid.NewGuid(),
             Topic = documentViewModel.Topic,
@@ -50,7 +49,7 @@ public class DocumentController : BaseController
             CreatedAt = DateTime.UtcNow,
             DocumentNumber = documentViewModel.DocumentNumber,
             UserId = userId,
-            DepartamentId = documentViewModel.DepartmentId
+            DepartmentId = documentViewModel.DepartmentId
         };
         await _dataContext.Documents.AddAsync(document);
         await _dataContext.SaveChangesAsync();
@@ -111,7 +110,7 @@ public class DocumentController : BaseController
             Correspondent = x.Correspondent,
             DocumentNumber = x.DocumentNumber,
             Topic = x.Topic,
-            DepartamentId = x.DepartamentId
+            DepartmentId = x.DepartmentId
         }).ToListAsync();
        
         return View(doc);

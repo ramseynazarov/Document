@@ -1,5 +1,4 @@
 using System;
-using Documet.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Document.Models;
@@ -19,29 +18,31 @@ public class DataContext : DbContext
     {
 
         model.Entity<Status>().HasData(
-            new Status()
+            new Status
             {
                 Id = 1,
                 Name = "Новый"
             },
-            new Status()
+            new Status
             {
                 Id = 2,
                 Name = "В процессе"
             },
-            new Status()
+            new Status
             {
                 Id = 3,
                 Name = "Отказано"
             },
-            new Status()
+            new Status
             {
                 Id = 4,
                 Name = "Одобрено"
             }
         );
+
+        model.Entity<Document>().Property(x => x.StatusId).HasDefaultValue(1);
         model.Entity<Department>().HasData(
-            new Department()
+            new Department
             {
                 Id = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
                 Name = "РТСУ",
@@ -49,7 +50,7 @@ public class DataContext : DbContext
             }
         );
         model.Entity<User>().HasData(
-            new User()
+            new User
             {
                 Id = Guid.NewGuid(),
                 Name = "Админ",
