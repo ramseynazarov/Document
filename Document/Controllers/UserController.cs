@@ -52,7 +52,7 @@ public class UserController : BaseController
     }
     
     [HttpGet]
-    [Authorize]
+ //   [Authorize]
     public IActionResult GetAll()
     {
         var users = _dataContext.Users.Select(x => new User()
@@ -60,6 +60,7 @@ public class UserController : BaseController
             Id = x.Id,
             Department = x.Department,
             Name = x.Name,
+            Phone = x.Phone
         }).ToList();
         return View(users);
     }
