@@ -58,6 +58,15 @@ public class DataContext : DbContext
                 Phone = "+000000000000",
                 CreatedAt = DateTime.UtcNow,
                 DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440")
+            },
+            new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Гость",
+                Password = BCrypt.Net.BCrypt.HashPassword("123"),
+                Phone = "+000000000001",
+                CreatedAt = DateTime.UtcNow,
+                DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440")
             }
         );
 

@@ -1,4 +1,5 @@
-@model System.Collections.Generic.List<Document.Models.Document>
+@using System.Security.Claims
+@model System.Collections.Generic.List<Document.Models.ViewModels.Document.DocumentVm>
 
 <head>
     <meta charset="utf-8">
@@ -34,25 +35,33 @@
                     <th scope="col">Отдел</th>
                     <th scope="col">Тип</th>
                     <th scope="col">Статус</th>
+                    <th scope="col">Действия</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    @foreach (var doc in @Model)
+                    @foreach (var doc in Model)
                     {
-                        <th scope="row">
-                            <a href="#">#@doc.DocumentNumber</a>
-                        </th>
-                        <td>@doc.Correspondent</td>
-                        <td>
-                           @doc.Department.Name
-                        </td>
-                        <td>@doc.Type</td>
-                        <td>
-                            <span class="badge bg-success">@doc.Status.Name</span>
-                        </td>
+                        var canDelete = doc.UserId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                        <tr>
+                            <th scope="row">
+                                <a asp-action="GetById" asp-controller="Document" asp-route-id="@doc.Id">#@doc.DocumentNumber</a>
+                            </th>
+                            <td>@doc.Correspondent</td>
+                            <td>
+                               @doc.DepartmentName
+                            </td>
+                            <td>@doc.Type</td>
+                            <td>
+                                <span class="badge bg-@(doc.StatusName == "Новый" ? "primary" : doc.StatusName == "Одобрено" ? "success" : "danger")">@doc.StatusName</span>
+                            </td>
+                            @if (canDelete && doc.StatusName == "Новый")
+                            {
+                                <td>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@doc.Id">Удалить</a>
+                                </td>
+                            }
+                        </tr>
                     }
-                </tr>
                 </tbody>
             </table>
 

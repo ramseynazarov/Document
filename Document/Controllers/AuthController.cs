@@ -53,8 +53,8 @@ public class AuthController : BaseController
             new(ClaimsIdentity.DefaultNameClaimType, phone),
             new(ClaimTypes.NameIdentifier, id.ToString())
         };
-        var currentUserId = new ClaimsIdentity(list, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(currentUserId));
+        var claimsIdentity = new ClaimsIdentity(list, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
     }
     
     [HttpGet]

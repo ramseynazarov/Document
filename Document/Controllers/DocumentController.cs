@@ -22,8 +22,10 @@ public class DocumentController : BaseController
     public async Task<IActionResult> Create()
     {
         var departments = await _dataContext.Departments.ToListAsync();
-       
-        var users = await _dataContext.Users.ToListAsync();
+
+        var currentUserId = GetCurrentUserId();
+        
+        var users = await _dataContext.Users.Where(x=>!x.Id.Equals(currentUserId)).ToListAsync();
         
         var document = new CreateDocVm()
         {
@@ -49,27 +51,49 @@ public class DocumentController : BaseController
             CreatedAt = DateTime.UtcNow,
             DocumentNumber = documentViewModel.DocumentNumber,
             UserId = userId,
-            DepartmentId = documentViewModel.DepartmentId
+            DepartmentId = documentViewModel.DepartmentId,
+            UserDocuments = documentViewModel.UserId.Select(x=> new UserDocuments
+            {
+                Id = Guid.NewGuid(),
+                UserId = x
+            }).ToList()
         };
         await _dataContext.Documents.AddAsync(document);
         await _dataContext.SaveChangesAsync();
         
-        
-      
-        foreach (var userDocuments in documentViewModel.UserId.Select(uGuid => new UserDocuments()
-                 {
-                     Id = Guid.NewGuid(),
-                     DocumentId = document.Id,
-                     UserId = uGuid
-                 }))
-        {
-            await _dataContext.UserDocuments.AddAsync(userDocuments);
-            await _dataContext.SaveChangesAsync();
-        }
-        
         return RedirectToAction("GetAll","Document");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Accept(Guid id)
+    {
+        var document = await _dataContext.Documents.FindAsync(id);
+        if (document == null)
+        {
+            return RedirectToAction("GetAll");
+        }
+
+        document.StatusId = 4;
+
+        await _dataContext.SaveChangesAsync();
+        return RedirectToAction("GetById", new { id });
+    }
     
+    [HttpGet]
+    public async Task<IActionResult> Reject(Guid id)
+    {
+        var document = await _dataContext.Documents.FindAsync(id);
+        if (document == null)
+        {
+            return RedirectToAction("GetAll");
+        }
+
+        document.StatusId = 3;
+
+        await _dataContext.SaveChangesAsync();
+        return RedirectToAction("GetById", new { id });
+    }
+
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetById(Guid id)
@@ -80,10 +104,10 @@ public class DocumentController : BaseController
         if (document == null)
         {
             ModelState.AddModelError("", "Документ не найден!");
-            return View(new Models.Document());
+            return View(new DocumentVm());
         }
         
-        var newDocument = new Models.Document()
+        var newDocument = new DocumentVm
         {
             Id = document.Id,
             Correspondent = document.Correspondent,
@@ -92,9 +116,15 @@ public class DocumentController : BaseController
             CorrespondentNumber = document.CorrespondentNumber,
             DocumentNumber = document.DocumentNumber,
             CreatedAtCorrespondent = document.CreatedAtCorrespondent,
-            UserDocuments = document.UserDocuments.ToList(),
+            UserDocuments = document.UserDocuments.Select(x=> new UserDocumentVm
+            {
+                UserId = x.UserId,
+                UserName = x.User.Name
+            }).ToList(),
             UserId = currentUserId,
-            Department = document.Department
+            Department = document.Department,
+            StatusName = document.Status.Name,
+            DepartmentName = document.Department.Name
         };
         
         return View(newDocument);
@@ -103,14 +133,17 @@ public class DocumentController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var doc = await _dataContext.Documents.Select(x => new Models.Document
+        var doc = await _dataContext.Documents.Select(x => new DocumentVm
         {
             Id = x.Id,
             Type = x.Type,
             Correspondent = x.Correspondent,
             DocumentNumber = x.DocumentNumber,
             Topic = x.Topic,
-            DepartmentId = x.DepartmentId
+            DepartmentId = x.DepartmentId,
+            DepartmentName = x.Department.Name,
+            StatusName = x.Status.Name,
+            UserId = x.UserId
         }).ToListAsync();
        
         return View(doc);

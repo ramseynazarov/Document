@@ -41,7 +41,7 @@ namespace Document.Migrations
                         new
                         {
                             Id = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
-                            CreatedAt = new DateTime(2023, 2, 12, 15, 45, 22, 731, DateTimeKind.Utc).AddTicks(4730),
+                            CreatedAt = new DateTime(2023, 2, 12, 16, 50, 45, 478, DateTimeKind.Utc).AddTicks(9890),
                             Name = "РТСУ"
                         });
                 });
@@ -161,12 +161,21 @@ namespace Document.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fee7067e-7785-491c-a5a1-539f67e4a9e9"),
-                            CreatedAt = new DateTime(2023, 2, 12, 15, 45, 22, 821, DateTimeKind.Utc).AddTicks(840),
+                            Id = new Guid("3d1778f6-800e-413e-9f1e-496d8cdb612c"),
+                            CreatedAt = new DateTime(2023, 2, 12, 16, 50, 45, 572, DateTimeKind.Utc).AddTicks(9490),
                             DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
                             Name = "Админ",
-                            Password = "$2b$10$zeTgANiQRpurLll71lbPHebdveKDLAx1m30l7.k2U.eWbwRyZtzVm",
+                            Password = "$2b$10$Mf0hbs7LruLOcVir37XizOjmsyu8AEx0i82Siqne4mlLK5oXr80Ke",
                             Phone = "+000000000000"
+                        },
+                        new
+                        {
+                            Id = new Guid("822f7ffc-f18c-4fb6-ac33-19dc2761b84c"),
+                            CreatedAt = new DateTime(2023, 2, 12, 16, 50, 45, 732, DateTimeKind.Utc).AddTicks(5180),
+                            DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
+                            Name = "Гость",
+                            Password = "$2b$10$BXbbDRqd5aBQW.J359mfvOsE2JVNqh2G9bHu/htvyP3H8fI8kzco2",
+                            Phone = "+000000000001"
                         });
                 });
 
