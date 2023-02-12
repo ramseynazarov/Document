@@ -24,8 +24,11 @@
     <div class="card recent-sales overflow-auto">
 
         <div class="card-body">
-            <h5 class="card-title">Список пользователей</h5>
-
+            <h5 style="float:left" class="card-title">Список пользователей</h5>
+            <br>
+            <a asp-action="Create" asp-controller="User" class="btn btn-primary" style="float:right">Создать</a>
+            <br>
+            <br>
             <table class="table table-borderless datatable">
                 <thead>
                 <tr>
@@ -46,9 +49,9 @@
                         <td>@user.Phone</td>
                         <td>
                             @user.Department.Name
-                        </td> 
+                        </td>
                         <td>
-                             <a asp-action="Delete" asp-controller="User" asp-route-id="@user.Id" class="btn btn-danger">Удалить</a>
+                            <a asp-action="Delete" asp-controller="User" asp-route-id="@user.Id" class="btn btn-danger">Удалить</a>
                         </td>
                     </tr>
                 }
