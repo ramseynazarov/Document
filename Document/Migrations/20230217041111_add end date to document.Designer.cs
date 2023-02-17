@@ -3,6 +3,7 @@ using System;
 using Document.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Document.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230217041111_add end date to document")]
+    partial class addenddatetodocument
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace Document.Migrations
                         new
                         {
                             Id = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
-                            CreatedAt = new DateTime(2023, 2, 17, 5, 17, 43, 743, DateTimeKind.Utc).AddTicks(1650),
+                            CreatedAt = new DateTime(2023, 2, 17, 4, 11, 11, 472, DateTimeKind.Utc).AddTicks(9830),
                             Name = "РТСУ"
                         });
                 });
@@ -71,9 +74,7 @@ namespace Document.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("EndDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 2, 18, 10, 17, 43, 743, DateTimeKind.Local).AddTicks(1500));
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("StatusId")
                         .ValueGeneratedOnAdd()
@@ -133,11 +134,6 @@ namespace Document.Migrations
                         {
                             Id = 4,
                             Name = "Одобрено"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Время истекло"
                         });
                 });
 
@@ -171,20 +167,20 @@ namespace Document.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3ce8aacd-511e-40cc-86a4-5aa914272cdb"),
-                            CreatedAt = new DateTime(2023, 2, 17, 5, 17, 43, 832, DateTimeKind.Utc).AddTicks(7080),
+                            Id = new Guid("cfa0dd4a-7ff8-4aa1-8df8-f2749ef9065f"),
+                            CreatedAt = new DateTime(2023, 2, 17, 4, 11, 11, 562, DateTimeKind.Utc).AddTicks(8610),
                             DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
                             Name = "Админ",
-                            Password = "$2b$10$QhvTwjutc7nmcYhbmjF1U.5tYSe2p6SpkdKAh/CHYty1tUPTcX/t.",
+                            Password = "$2b$10$e3Ul5CCFOawMaoux9BtYYuH74V6YMzznYYTfm8DPP2vsYJiDH9oYO",
                             Phone = "+000000000000"
                         },
                         new
                         {
-                            Id = new Guid("13443143-aa30-48eb-9224-9726acc4d7f9"),
-                            CreatedAt = new DateTime(2023, 2, 17, 5, 17, 43, 922, DateTimeKind.Utc).AddTicks(2160),
+                            Id = new Guid("09ed7fac-e65a-4950-acb5-ec678275a90b"),
+                            CreatedAt = new DateTime(2023, 2, 17, 4, 11, 11, 653, DateTimeKind.Utc).AddTicks(1860),
                             DepartmentId = new Guid("c446e52f-223d-4ddc-810c-d4f6b345f440"),
                             Name = "Гость",
-                            Password = "$2b$10$YOMhNZfCRbZ.U.Zdsh8sWuzTj7SnXN0gmEUjjMdFvOALhoUIhWYMi",
+                            Password = "$2b$10$xa5Pd4OmWFoslzdC54CTduciowguiy1HjeqkBRql4jWt8Xmh9Wk2W",
                             Phone = "+000000000001"
                         });
                 });

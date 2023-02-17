@@ -13,6 +13,7 @@ public class Document
     public string CorrespondentNumber { get; set; }
     public DateTime CreatedAtCorrespondent { get; set; }
     public DateTime CreatedAt { get; set; }
+    public DateTime EndDateTime { get; set; }
     public Guid UserId { get; set; }
     public Guid DepartmentId { get; set; }
    

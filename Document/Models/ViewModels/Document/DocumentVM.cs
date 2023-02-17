@@ -18,4 +18,6 @@ public class DocumentVm
     public List<UserDocumentVm> UserDocuments { get; set; }
     public Guid UserId { get; set; }
     public Department Department { get; set; }
+    public DateTime EndDateTime { get; set; }
+    public bool CanAddUser { get; set; }
 }

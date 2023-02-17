@@ -30,7 +30,7 @@ public class DocumentController : BaseController
         var document = new CreateDocVm()
         {
             Departments = departments,
-            Users = users
+            // Users = users
         };
         return View(document);
     }
@@ -52,11 +52,7 @@ public class DocumentController : BaseController
             DocumentNumber = documentViewModel.DocumentNumber,
             UserId = userId,
             DepartmentId = documentViewModel.DepartmentId,
-            UserDocuments = documentViewModel.UserId.Select(x=> new UserDocuments
-            {
-                Id = Guid.NewGuid(),
-                UserId = x
-            }).ToList()
+            EndDateTime = documentViewModel.EndDate.AddHours(documentViewModel.EndHour).AddMinutes(documentViewModel.EndMinute)
         };
         await _dataContext.Documents.AddAsync(document);
         await _dataContext.SaveChangesAsync();
@@ -143,7 +139,9 @@ public class DocumentController : BaseController
             DepartmentId = x.DepartmentId,
             DepartmentName = x.Department.Name,
             StatusName = x.Status.Name,
-            UserId = x.UserId
+            UserId = x.UserId,
+            EndDateTime = x.EndDateTime,
+            CanAddUser = !x.UserDocuments.Any()
         }).ToListAsync();
        
         return View(doc);
@@ -162,5 +160,33 @@ public class DocumentController : BaseController
         }
        
         return RedirectToAction("GetAll","Document");
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> AddUsers(Guid documentId)
+    {
+        var currentUserId = GetCurrentUserId();
+        var users = await _dataContext.Users.Where(x=>!x.Id.Equals(currentUserId)).ToListAsync();
+        return View(new AddDocumentUserVm
+        {
+            Users = users,
+            DocumentId = documentId
+        });
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> AddUsers(AddDocumentUserVm addDocumentUserVm)
+    {
+        var list = addDocumentUserVm.UserIds.Select(x => new UserDocuments
+        {
+            Id = Guid.NewGuid(),
+            DocumentId = addDocumentUserVm.DocumentId,
+            UserId = x
+        });
+        await _dataContext.UserDocuments.AddRangeAsync(list);
+        await _dataContext.SaveChangesAsync();
+        return RedirectToAction("GetAll");
     }
 }

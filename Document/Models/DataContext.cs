@@ -37,10 +37,16 @@ public class DataContext : DbContext
             {
                 Id = 4,
                 Name = "Одобрено"
+            },
+            new Status
+            {
+                Id = 5,
+                Name = "Время истекло"
             }
         );
 
         model.Entity<Document>().Property(x => x.StatusId).HasDefaultValue(1);
+        model.Entity<Document>().Property(x => x.EndDateTime).HasDefaultValue(DateTime.Now.AddDays(1));
         model.Entity<Department>().HasData(
             new Department
             {

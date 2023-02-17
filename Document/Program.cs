@@ -1,5 +1,6 @@
 using Document.Extensions;
 using Document.Models;
+using Document.Workers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +20,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = new PathString("/Auth/Login");
         options.AccessDeniedPath = new PathString("/Document/GetAll");
     });
+
+builder.Services.AddHostedService<ChangeExpiredDocumentStatusJob>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

@@ -76,6 +76,19 @@
                         <input asp-for="Topic" type="text" class="form-control">
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label">Дата исполнения</label>
+                    <div class="col-sm-10">
+                        <input asp-for="EndDate" type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputText" class="col-sm-2 col-form-label">Время исполнения</label>
+                    <div class="col-sm-10">
+                        <input asp-for="EndHour" type="number" min="0" max="23" class="form-control">
+                        <input asp-for="EndMinute" type="number" min="0" max="59" class="form-control">
+                    </div>
+                </div>
 
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Список отделов</label>
@@ -90,18 +103,18 @@
 
                     </div>
                 </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label">Список испольнителей</label>
-                    <div class="col-sm-10">
-                        <select asp-for="UserId" class="form-select" multiple aria-label="multiple select example">
-                            @foreach (var user in Model.Users)
-                            {
-                                <option value="@user.Id">@user.Name</option>
-                            }
-                        </select>
-                    </div>
-                </div>
+                @* *@
+                @* <div class="row mb-3"> *@
+                @*     <label class="col-sm-2 col-form-label">Список испольнителей</label> *@
+                @*     <div class="col-sm-10"> *@
+                @*         <select asp-for="UserId" class="form-select" multiple aria-label="multiple select example"> *@
+                @*             @foreach (var user in Model.Users) *@
+                @*             { *@
+                @*                 <option value="@user.Id">@user.Name</option> *@
+                @*             } *@
+                @*         </select> *@
+                @*     </div> *@
+                @* </div> *@
 
                 <div class="row mb-3">
                     <div class="col-sm-10">

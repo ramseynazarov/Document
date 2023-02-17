@@ -38,6 +38,7 @@
                     <th scope="col">Отдел</th>
                     <th scope="col">Тип</th>
                     <th scope="col">Статус</th>
+                    <th scope="col">Дата исполнения</th>
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>
@@ -57,12 +58,17 @@
                             <td>
                                 <span class="badge bg-@(doc.StatusName == "Новый" ? "primary" : doc.StatusName == "Одобрено" ? "success" : "danger")">@doc.StatusName</span>
                             </td>
-                            @if (canDelete && doc.StatusName == "Новый")
-                            {
-                                <td>
+                            <td>@doc.EndDateTime</td>
+                            <td>
+                                @if (canDelete && doc.StatusName == "Новый")
+                                {
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@doc.Id">Удалить</a>
-                                </td>
-                            }
+                                    @if (doc.CanAddUser)
+                                    {
+                                        <a class="btn btn-success" asp-action="AddUsers" asp-controller="Document" asp-route-documentId="@doc.Id">Добавить исполнителя</a>
+                                    }
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
